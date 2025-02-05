@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="authors" content="Koór Dominik Márk, Gale Szabolcs">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Számrendszer Átváltó</title>
+
+  
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="bg.css">
+    <style>
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+
+<body class=" text-white font-sans p-8 transition-colors duration-500 dark:bg-gray-900 dark:text-white">
+
+    <h1 class="text-3xl font-bold mb-6 text-center fade-in">Számrendszer Átváltó</h1>
+
+    <div class="space-y-4 max-w-lg mx-auto bg-genyo p-6 rounded-lg shadow-md fade-in">
+        <div>
+            <input type="text" id="decimalInput" placeholder="Decimális szám"
+                class="placeholder-white w-full text-center p-2 rounded-md bg-black text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-150"
+                oninput="convertFromDecimal()">
+        </div>
+
+        <div>
+            <input type="text" id="binaryInput" placeholder="Bináris szám"
+                class="placeholder-white w-full text-center p-2 rounded-md bg-black text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-150"
+                oninput="convertFromBinary()">
+        </div>
+
+        <div>
+            <input type="text" id="octalInput" placeholder="Oktális szám"
+                class="placeholder-white w-full text-center p-2 rounded-md bg-black text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-150"
+                oninput="convertFromOctal()">
+        </div>
+
+        <div>
+            <input type="text" id="hexInput" placeholder="Hexadecimális szám"
+                class="placeholder-white w-full text-center p-2 rounded-md bg-black text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-150"
+                oninput="convertFromHex()">
+        </div>
+
+    </div>
+    <div style="position: absolute; bottom: 5px;" class="fade-in text-right">
+        Készítette: Koór Dominik, Gale Szabolcs
+    </div>
+    <script>
+
+        function convertFromDecimal() {
+            const decimalValue = document.getElementById('decimalInput').value;
+
+            if (decimalValue !== '') {
+                const decimalNumber = parseInt(decimalValue);
+                document.getElementById('binaryInput').value = decimalNumber.toString(2);
+                document.getElementById('octalInput').value = decimalNumber.toString(8); 
+                document.getElementById('hexInput').value = decimalNumber.toString(16); 
+            } else {
+                resetFields();
+            }
+        }
+
+        function convertFromBinary() {
+            const binaryValue = document.getElementById('binaryInput').value;
+
+            if (binaryValue !== '') {
+                const decimalNumber = parseInt(binaryValue, 2);
+                document.getElementById('decimalInput').value = decimalNumber;
+                document.getElementById('octalInput').value = decimalNumber.toString(8); // Oktális
+                document.getElementById('hexInput').value = decimalNumber.toString(16); // Hexadecimális
+            } else {
+                resetFields();
+            }
+        }
+
+        function convertFromOctal() {
+            const octalValue = document.getElementById('octalInput').value;
+
+            if (octalValue !== '' && /^[0-7]+$/.test(octalValue)) { // Ellenőrizzük, hogy csak 0-7 számjegyek szerepelnek
+                const decimalNumber = parseInt(octalValue, 8);
+                document.getElementById('decimalInput').value = decimalNumber;
+                document.getElementById('binaryInput').value = decimalNumber.toString(2); 
+                document.getElementById('hexInput').value = decimalNumber.toString(16); 
+            } else {
+                resetFields();
+            }
+        }
+
+
+        function convertFromHex() {
+            const hexValue = document.getElementById('hexInput').value;
+
+            if (hexValue !== '') {
+                const decimalNumber = parseInt(hexValue, 16);
+                document.getElementById('decimalInput').value = decimalNumber;
+                document.getElementById('binaryInput').value = decimalNumber.toString(2);
+                document.getElementById('octalInput').value = decimalNumber.toString(8);
+            } else {
+                resetFields();
+            }
+        }
+
+        function resetFields() {
+            document.getElementById('binaryInput').value = '';
+            document.getElementById('octalInput').value = '';
+            document.getElementById('decimalInput').value = '';
+            document.getElementById('hexInput').value = '';
+        }
+    </script>
+</body>
+
+</html>
